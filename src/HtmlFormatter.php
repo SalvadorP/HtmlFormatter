@@ -6,7 +6,7 @@
  * @category DomUtils
  * @package  HtmlFormatter
  * @author   Salvador Perez <salvadorperezd@gmail.com>
- * @license  MIT
+ * @license  https://opensource.org/licenses/MIT MIT
  * @link     https://github.com/SalvadorP/HtmlFormatter
  */
 
@@ -22,7 +22,7 @@ use DOMXPath;
 * @category DomUtils
 * @package  HtmlFormatter
 * @author   Salvador Perez <salvadorperezd@gmail.com>
-* @license  MIT
+* @license  https://opensource.org/licenses/MIT MIT
 * @link     https://github.com/SalvadorP/HtmlFormatter
 */
 class HtmlFormatter
