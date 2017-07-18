@@ -1,12 +1,13 @@
 <?php
 /**
- * @file 
  * HtmlFormatter class code.
- * @category Dom_Utilities
- * @package HtmlFormatter
- * @author Salvador Perez <salvadorperezd@gmail.com> 
- * @license MIT
- * @link https://github.com/SalvadorP/HtmlFormatter
+ *
+ * @file  
+ * @category DomUtils
+ * @package  HtmlFormatter
+ * @author   Salvador Perez <salvadorperezd@gmail.com>
+ * @license  MIT
+ * @link     https://github.com/SalvadorP/HtmlFormatter
  */
 
 namespace src\Services;
@@ -18,9 +19,9 @@ use DOMXPath;
 /**
 * Class HtmlFormatter
 *
+* @category DomUtils
 * @package  HtmlFormatter
 * @author   Salvador Perez <salvadorperezd@gmail.com>
-* @category Dom_Utilities
 * @license  MIT
 * @link     https://github.com/SalvadorP/HtmlFormatter
 */
@@ -48,6 +49,11 @@ class HtmlFormatter
      */
     protected $processedHTML = '';
 
+    /**
+     * Class Constructor.
+     *
+     * @param string $file HTML file path.
+     */
     function __construct($file)
     {
         $this->dom = new DOMDocument();
@@ -68,13 +74,14 @@ class HtmlFormatter
     {
         $this->incrementHeaderTags();
         $this->removeAttributesFromTag('img', ['height', 'width']);
-        $this->addAttributesToTag('img', ['class' => ['img-responsive img-rounded']]);
+        $tagAttributes = ['class' => ['img-responsive img-rounded']];
+        $this->addAttributesToTag('img', $tagAttributes);
         $this->getWordSectionContents();
         return $this->processedHTML;
     }
 
     /**
-   * Gets the HTML of the file and removes the word blank spaces, avoiding the strange characters in the final HTML.
+   * Gets the HTML of the file and removes the word blank spaces.
    *
    * @param string $file File path of the uploaded HTML file.
    * 
@@ -83,14 +90,15 @@ class HtmlFormatter
     function getHtmlWithoutWordBlankSpaces($file)
     {
         $contents = file_get_contents($file);
-        $search = "<p class=MsoNormal><span lang=EN-GB style='mso-ansi-language:EN-GB'>&nbsp;</span></p>";
+        $search = "<p class=MsoNormal><span lang=EN-GB " . 
+            "style='mso-ansi-language:EN-GB'>&nbsp;</span></p>";
         return str_replace($search, '', $contents);
     }
 
     /**
   * Stringifies the inner HTML of the DOM Element.
   *
-  * @param DOMElement $element.
+  * @param DOMElement $element The DOM Element.
   *
   * @return string The contens of the DOM Element as a string.
   */
@@ -107,7 +115,9 @@ class HtmlFormatter
     /**
   * Gets all the tags indicated by the filter H and increment them by one
   *
-  * @param integer $totalHeaderTags [description]
+  * @param integer $totalHeaderTags Total of header tags.
+  * 
+  * @return void
   */
     function incrementHeaderTags($totalHeaderTags = 20)
     {
@@ -123,7 +133,7 @@ class HtmlFormatter
             $tagValue = filter_var($tag, FILTER_SANITIZE_NUMBER_INT);
             $tagValue++;
             $tag = 'h'.$tagValue;
-            $this->DomRenameElement($element, $tag);
+            $this->domRenameElement($element, $tag);
         }
     }
 
@@ -152,7 +162,9 @@ class HtmlFormatter
   * Removes all childs of the element, and the element.
   *
   * @param string      $tag HTML tag to remove from the DOM.
-  * @param DOMDocument $dom The DOM Document to iterate
+  * @param DOMDocument $dom The DOM Document to iterate.
+  *
+  * @return void
   */
     function removeElementsByTagName($tag, $dom)
     {
@@ -165,12 +177,12 @@ class HtmlFormatter
     /**
   * Renames a node in a DOM Document.
   *
-  * @param DOMElement $node
-  * @param string     $name
+  * @param DOMElement $node DOM's node.
+  * @param string     $name Name of the DOM's node.
   *
   * @return DOMNode
   */
-    function DomRenameElement(DOMElement $node, $name)
+    function domRenameElement(DOMElement $node, $name)
     {
         $renamed = $node->ownerDocument->createElement($name);
 
@@ -212,6 +224,8 @@ class HtmlFormatter
   *
   * @param string $tag        Tag name
   * @param array  $attributes Attributes to remove from the tag
+  * 
+  * @return void
   */
     function addAttributesToTag($tag, $attributes)
     {
