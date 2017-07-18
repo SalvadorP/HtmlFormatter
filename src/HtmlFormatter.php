@@ -58,6 +58,7 @@ class HtmlFormatter
     {
         $this->dom = new DOMDocument();
         $internalErrorsState = libxml_use_internal_errors(true);
+        $this->checkFileIsValid($file);
         $text = $this->getHtmlWithoutWordBlankSpaces($file);
         $this->dom->loadHTML($text);
         libxml_use_internal_errors($internalErrorsState);
@@ -77,6 +78,27 @@ class HtmlFormatter
         return new self($file);
     }
   
+    /**
+     * Checks if the provided file is a valid html file.
+     *
+     * @param string $file File Path.
+     * 
+     * @return void
+     */
+    function checkFileIsValid($file) 
+    {
+        if (!is_file($file)) {
+            throw new \InvalidArgumentException(
+                sprintf('"%s" is not a file or not exists.', $file)
+            );
+        }
+        if (is_file($file) && mb_stripos($file, '.htm') === false) {
+            throw new \InvalidArgumentException(
+                sprintf('"%s" is not a valid file.', $file)
+            );
+        }
+    }
+
     /**
      * Processes the uploaded File and retrieves the relevant HTML code.
      *
