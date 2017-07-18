@@ -1,5 +1,5 @@
 <?php
-namespace App\Services;
+namespace src\Services;
 
 use DOMDocument;
 use DOMElement;
@@ -56,7 +56,6 @@ class HtmlFormatter
     $this->incrementHeaderTags();
     $this->removeAttributesFromTag('img', ['height', 'width']);
     $this->addAttributesToTag('img', ['class' => ['img-responsive img-rounded']]);
-    // $this->createColorboxLink();
     $this->getWordSectionContents();
     return $this->processedHTML;
   }
@@ -70,31 +69,6 @@ class HtmlFormatter
     $contents = file_get_contents($file);
     $search = "<p class=MsoNormal><span lang=EN-GB style='mso-ansi-language:EN-GB'>&nbsp;</span></p>";
     return str_replace($search, '', $contents);
-  }
-
-  /**
-  * This version does not work, but it's "almost there".
-  * Returns the a link with the img, but the img tag is in html entities.
-  */
-  function createColorboxLink()
-  {
-    $tag = 'img';
-    $filter = '(//' . $tag . ')';
-    $elements = $this->xpath->query($filter);
-    foreach ($elements as $index => $element) {
-      $href = $element->getAttribute('src');
-      $class = 'colorbox init-colorbox-processed cboxElement';
-      $element->setAttribute('class', 'img-responsive img-rounded');
-      $imageTag = $this->DOMinnerHTML($element->parentNode);
-
-      $href = $element->getAttribute('src');
-      $class = 'colorbox init-colorbox-processed cboxElement';
-      $e = $this->dom->createElement('a', $imageTag);
-      $e->setAttribute('class', $class);
-      $e->setAttribute('href', $href);
-
-      $element->parentNode->replaceChild($e, $element);
-    }
   }
 
   /**
