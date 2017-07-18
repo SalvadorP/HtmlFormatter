@@ -64,6 +64,18 @@ class HtmlFormatter
         $this->xpath = new DOMXPath($this->dom);
         $this->processedHTML = '';
     }
+
+    /**
+     * Creates a new instance of the HtmlFormatter using a file path.
+     *
+     * @param string $file File Path.
+     * 
+     * @return void
+     */
+    function fromFile($file) 
+    {
+        return new self($file);
+    }
   
     /**
      * Processes the uploaded File and retrieves the relevant HTML code.
@@ -151,12 +163,11 @@ class HtmlFormatter
             $class="WordSection" . $i;
             $query = "//*[contains(@class, '$class')]";
             $nodes = $this->xpath->query($query);
-      
             foreach ($nodes as $node) {
                 // Better than C14N!.
                 $this->processedHTML .= $node->ownerDocument->saveHTML($node); 
             }
-        }
+        }        
     }
   
     /**
