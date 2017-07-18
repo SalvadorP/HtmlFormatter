@@ -1,0 +1,13 @@
+{
+    "name": "salvadorp/html-formatter",
+    "description": "Class with DOM utilities to manage HTML files or Word exported html files",
+    "require": {},
+    "require-dev": {
+        "phpunit/phpunit": "^6.2"
+    },
+    "license": "MIT",
+    "authors": [{
+        "name": "SalvadorP",
+        "email": "salvadorperezd@gmail.com"
+    }]
+}
